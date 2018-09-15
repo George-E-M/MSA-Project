@@ -1,4 +1,8 @@
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
 import TextField from '@material-ui/core/TextField';
+import Tooltip from '@material-ui/core/Tooltip';
+import HelpIcon from '@material-ui/icons/Help';
 import * as React from 'react';
 import './css/styles.css';
 
@@ -46,7 +50,7 @@ class App extends React.Component<{}, IState> {
   public handleTextSubmit(event: any) {
     event.preventDefault();
     let request;
-    if (this.state.countryText !== '' ) {
+    if (this.state.countryText !== '') {
       request=`http://api.openweathermap.org/data/2.5/weather?q=${this.state.cityText},${this.state.countryText}&appid=${WEATHER_KEY}`
     } else {
       request=`http://api.openweathermap.org/data/2.5/weather?q=${this.state.cityText}&appid=${WEATHER_KEY}`
@@ -79,8 +83,8 @@ class App extends React.Component<{}, IState> {
       <div className="centreText">
         <div className="circle">
          <div className="titles">
-           <h1>Weather App </h1>
-           <p> Enter the name of the city you want to find the weather for </p>
+           <h1>MSA Weather App </h1>
+           <p>Enter the name of the location you want to find the weather for</p>
          </div>
           <div className="form">
            <form onSubmit={this.handleTextSubmit}>
@@ -89,13 +93,27 @@ class App extends React.Component<{}, IState> {
              className="cityField"
              value={this.state.cityText}
              onChange={this.handleCityChange}
+             margin="normal"
             />
+            {"  "}
             <TextField
-             label="Country Name"
+             label="Country Name (Optional)"
              className="countryField"
              value={this.state.countryText}
              onChange={this.handleCountryChange}
+             margin="normal"
+             helperText="Use the 2-letter ISO Code names"
             />
+            {"  "}
+            <Button variant="contained" size="small" className="button" type="submit">
+              Find Weather
+            </Button>
+            {" "}
+            {<Tooltip title="Two letter ISO code names can be found at: www.nationsonline.org/oneworld/country_code_list.htm" className="tip">
+              <IconButton aria-label="Help" type="info">
+                <HelpIcon />
+              </IconButton>
+            </Tooltip>}
            </form>
           </div>
           <div className="information">
