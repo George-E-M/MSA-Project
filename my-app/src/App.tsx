@@ -43,6 +43,7 @@ class App extends React.Component<{}, IState> {
     this.handleTextSubmit = this.handleTextSubmit.bind(this);
   }
 
+
   public handleCityChange(event: any) {
     this.setState({cityText: event.target.value});
     
@@ -62,15 +63,17 @@ class App extends React.Component<{}, IState> {
       errorMessage: undefined,
       isLoading: true
     })
-    event.preventDefault();
-    let request;
+    event.preventDefault(); // Stops the browser from interfering
     if (this.state.countryText.length === 2 && this.state.cityText.length > 0) {
-      request=`http://api.openweathermap.org/data/2.5/weather?q=${this.state.cityText},${this.state.countryText}&appid=${WEATHER_KEY}`
+      // If the input is valid and includes a city
+      const request=`https://api.openweathermap.org/data/2.5/weather?q=${this.state.cityText},${this.state.countryText}&appid=${WEATHER_KEY}`
       this.getWeather(request)
     } else if (this.state.countryText.length === 0 && this.state.cityText.length > 0) {
-      request=`http://api.openweathermap.org/data/2.5/weather?q=${this.state.cityText}&appid=${WEATHER_KEY}`
+      // If the input is valid but doesn't include a city
+      const request=`https://api.openweathermap.org/data/2.5/weather?q=${this.state.cityText}&appid=${WEATHER_KEY}`
       this.getWeather(request)
     } else {
+      // If the input is invalid
       this.setState({
         location: undefined,
         weatherDescription: undefined,
@@ -87,6 +90,7 @@ class App extends React.Component<{}, IState> {
   public getWeather(request: any) {
     fetch(request, {}).then((response : any) => {
       if (!response.ok) {
+        // If the API couldn't find the city
         this.setState({
           location: undefined,
           weatherDescription: undefined,
